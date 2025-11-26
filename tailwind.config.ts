@@ -55,6 +55,10 @@ const config: Config = {
                     DEFAULT: "#4DD4E8", // Mapped to Secondary
                     glow: "#4DD4E8",
                 },
+                slate: {
+                    850: "#151e2e",
+                    950: "#020617",
+                },
             },
             backgroundImage: {
                 "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -63,12 +67,6 @@ const config: Config = {
             boxShadow: {
                 'glow-blue': '0 0 20px -5px rgba(0, 217, 184, 0.3)', // Primary Glow
                 'glow-green': '0 0 20px -5px rgba(16, 185, 129, 0.3)', // Success Glow
-            },
-            colors: {
-                slate: {
-                    850: '#151e2e',
-                    950: '#020617',
-                }
             },
             animation: {
                 scroll: 'scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite',
