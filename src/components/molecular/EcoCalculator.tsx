@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { getEcoInsight, EcoResult } from '../../services/geminiService';
+import { calculateEcoInsight, EcoResult } from '../../app/actions/calculateEco';
 import { Send, Leaf, Loader2, Droplets, Sparkles } from 'lucide-react';
 
 const EcoCalculator: React.FC = () => {
@@ -16,7 +16,7 @@ const EcoCalculator: React.FC = () => {
         if (!input.trim()) return;
 
         setLoading(true);
-        const insight = await getEcoInsight(input);
+        const insight = await calculateEcoInsight(input);
         setResult(insight);
         setLoading(false);
         setSelectedCard(null); // Reset selection on new calculation

@@ -1,3 +1,5 @@
+"use server";
+
 import { GoogleGenAI } from "@google/genai";
 
 export interface EcoResult {
@@ -8,18 +10,27 @@ export interface EcoResult {
     message: string;
 }
 
-export const getEcoInsight = async (itemDescription: string): Promise<EcoResult> => {
-    // Note: In a real Next.js app, you should use NEXT_PUBLIC_API_KEY or a server action to hide the key.
-    // For this demo, we'll assume it's available or use a mock.
-    if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY && !process.env.API_KEY) {
-        console.warn("API_KEY not found. Returning mock data.");
+const mockResponse = (item: string): EcoResult => {
+    return {
+        valid: true,
+        traditional: 180,
+        molecular: 5,
+        savings: 175,
+        message: `En optant pour la technologie moléculaire pour votre ${item}, vous préservez des ressources vitales.`
+    };
+}
+
+export const calculateEcoInsight = async (itemDescription: string): Promise<EcoResult> => {
+    // Use the secure server-side environment variable
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    if (!apiKey) {
+        console.warn("GEMINI_API_KEY not found. Returning mock data.");
         return mockResponse(itemDescription);
     }
 
-    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.API_KEY;
-
     try {
-        const ai = new GoogleGenAI({ apiKey: apiKey! });
+        const ai = new GoogleGenAI({ apiKey: apiKey });
         const response = await ai.models.generateContent({
             model: 'gemini-2.0-flash',
             contents: [
@@ -77,13 +88,3 @@ export const getEcoInsight = async (itemDescription: string): Promise<EcoResult>
         return mockResponse(itemDescription);
     }
 };
-
-const mockResponse = (item: string): EcoResult => {
-    return {
-        valid: true,
-        traditional: 180,
-        molecular: 5,
-        savings: 175,
-        message: `En optant pour la technologie moléculaire pour votre ${item}, vous préservez des ressources vitales.`
-    };
-}
