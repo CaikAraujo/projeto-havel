@@ -145,7 +145,7 @@ const MolecularSimulation: React.FC<Props> = ({ mode, setMode }) => {
             {/* Control Panel */}
             <div className="relative z-10 p-8 w-full md:w-1/3 flex flex-col justify-center glass-panel md:border-r border-b md:border-b-0 border-white/10">
                 <h3 className="text-2xl font-bold mb-6 text-white font-syne uppercase tracking-wider">
-                    Análise de Processo
+                    Analyse du Processus
                 </h3>
 
                 <div className="space-y-4">
@@ -157,21 +157,21 @@ const MolecularSimulation: React.FC<Props> = ({ mode, setMode }) => {
                             <Droplets size={20} />
                         </div>
                         <div className="text-left">
-                            <div className="font-bold text-sm uppercase tracking-wide">Tradicional</div>
-                            <div className="text-xs opacity-70">Encharcamento & Risco de Mofo</div>
+                            <div className="font-bold text-sm uppercase tracking-wide">Traditionnel</div>
+                            <div className="text-xs opacity-70">Saturation & Risque de Moisissure</div>
                         </div>
                     </button>
 
                     <button
                         onClick={() => setMode(CleaningMode.MOLECULAR)}
-                        className={`w-full p-4 rounded-xl flex items-center gap-4 transition-all duration-300 border ${mode === CleaningMode.MOLECULAR ? 'bg-primary/10 border-primary text-white shadow-[0_0_15px_rgba(0,217,184,0.2)]' : 'bg-transparent border-white/10 text-gray-400 hover:bg-white/5'}`}
+                        className={`w-full p-4 rounded-xl flex items-center gap-4 transition-all duration-300 border ${mode === CleaningMode.MOLECULAR ? 'bg-[#00D9B8]/10 border-[#00D9B8] text-[#00D9B8] shadow-[0_0_15px_rgba(0,217,184,0.2)]' : 'bg-transparent border-white/10 text-gray-400 hover:bg-white/5'}`}
                     >
-                        <div className={`p-2 rounded-lg ${mode === CleaningMode.MOLECULAR ? 'bg-primary text-black' : 'bg-gray-800'}`}>
+                        <div className={`p-2 rounded-lg ${mode === CleaningMode.MOLECULAR ? 'bg-[#00D9B8]/10 text-[#00D9B8]' : 'bg-gray-800 text-gray-400'}`}>
                             <Sparkles size={20} />
                         </div>
                         <div className="text-left">
                             <div className="font-bold text-sm uppercase tracking-wide">Swiss Molecular</div>
-                            <div className="text-xs opacity-70">Encapsulamento & Zero Resíduo</div>
+                            <div className={`text-xs ${mode === CleaningMode.MOLECULAR ? 'text-[#00D9B8]/70' : 'opacity-70'}`}>Encapsulation & Zéro Résidu</div>
                         </div>
                     </button>
                 </div>
@@ -188,10 +188,10 @@ const MolecularSimulation: React.FC<Props> = ({ mode, setMode }) => {
                             >
                                 <div className="flex items-center gap-2 text-red-400 text-sm font-bold uppercase tracking-wider">
                                     <AlertTriangle size={16} />
-                                    <span>Dano Crítico</span>
+                                    <span>Dommage Critique</span>
                                 </div>
                                 <p className="text-gray-400 text-sm leading-relaxed">
-                                    A água penetra profundamente na espuma (2-5cm), criando um ambiente úmido por dias. Isso enfraquece as fibras e permite a proliferação de fungos invisíveis.
+                                    L'eau pénètre profondément dans la mousse (2-5cm), créant un environnement humide pendant des jours. Cela affaiblit les fibres et permet la prolifération de champignons invisibles.
                                 </p>
                             </motion.div>
                         ) : (
@@ -204,10 +204,10 @@ const MolecularSimulation: React.FC<Props> = ({ mode, setMode }) => {
                             >
                                 <div className="flex items-center gap-2 text-primary text-sm font-bold uppercase tracking-wider">
                                     <Wind size={16} />
-                                    <span>Eficiência Máxima</span>
+                                    <span>Efficacité Maximale</span>
                                 </div>
                                 <p className="text-gray-300 text-sm leading-relaxed">
-                                    Milhões de bolhas carbonatadas explodem ao contato com a sujeira, quebrando-a em partículas microscópicas que são encapsuladas e removidas instantaneamente.
+                                    Des millions de bulles carbonatées explosent au contact de la saleté, la brisant en particules microscopiques qui sont encapsulées et éliminées instantanément.
                                 </p>
                             </motion.div>
                         )}
@@ -220,7 +220,7 @@ const MolecularSimulation: React.FC<Props> = ({ mode, setMode }) => {
                 <div className="absolute top-6 right-6 flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-black/40 backdrop-blur-md">
                     <div className={`w-2 h-2 rounded-full animate-pulse ${mode === CleaningMode.MOLECULAR ? 'bg-primary' : 'bg-red-500'}`}></div>
                     <span className="text-xs font-mono uppercase text-gray-400">
-                        {mode === CleaningMode.MOLECULAR ? 'Active: Carbonation' : 'Warning: Saturation'}
+                        {mode === CleaningMode.MOLECULAR ? 'Actif : Carbonatation' : 'Attention : Saturation'}
                     </span>
                 </div>
 
@@ -233,11 +233,11 @@ const MolecularSimulation: React.FC<Props> = ({ mode, setMode }) => {
                         >
                             <div className="text-center">
                                 <div className="text-3xl font-bold text-primary font-syne">15m</div>
-                                <div className="text-xs text-gray-500 uppercase tracking-widest mt-1">Secagem Total</div>
+                                <div className="text-xs text-gray-500 uppercase tracking-widest mt-1">Séchage Total</div>
                             </div>
                             <div className="text-center">
                                 <div className="text-3xl font-bold text-primary font-syne">98%</div>
-                                <div className="text-xs text-gray-500 uppercase tracking-widest mt-1">Menos Água</div>
+                                <div className="text-xs text-gray-500 uppercase tracking-widest mt-1">Moins d'Eau</div>
                             </div>
                         </motion.div>
                     )}
@@ -249,11 +249,11 @@ const MolecularSimulation: React.FC<Props> = ({ mode, setMode }) => {
                         >
                             <div className="text-center">
                                 <div className="text-3xl font-bold text-red-500 font-syne">24h+</div>
-                                <div className="text-xs text-gray-500 uppercase tracking-widest mt-1">Tempo de Secagem</div>
+                                <div className="text-xs text-gray-500 uppercase tracking-widest mt-1">Temps de Séchage</div>
                             </div>
                             <div className="text-center">
                                 <div className="text-3xl font-bold text-red-500 font-syne">200L</div>
-                                <div className="text-xs text-gray-500 uppercase tracking-widest mt-1">Água por Sofá</div>
+                                <div className="text-xs text-gray-500 uppercase tracking-widest mt-1">Eau par Canapé</div>
                             </div>
                         </motion.div>
                     )}

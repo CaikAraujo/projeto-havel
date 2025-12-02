@@ -4,59 +4,150 @@ import { Section } from '@/components/ui/Section';
 
 import { Compare } from '@/components/ui/compare';
 
-const categories = ['All', 'Upholstery', 'Carpets', 'Automotive', 'Corporate'];
+const categories = ['Tout', 'Ameublement', 'Tapis', 'Automobile', 'Entreprise'];
 
 const items = [
     {
-        title: 'BMW Interior Detail',
-        category: 'Automotive',
+        title: 'Détailing Intérieur BMW',
+        category: 'Automobile',
         firstImage: '/images/carros/bmw-limpa.jpeg',
         secondImage: '/images/carros/bmw-suja.jpeg',
+        featured: true,
     },
     {
-        title: 'Ferrari Leather Care',
-        category: 'Automotive',
+        title: 'Soin Cuir Ferrari',
+        category: 'Automobile',
         firstImage: '/images/carros/ferrari-limpa.jpeg',
         secondImage: '/images/carros/ferrari-suja.jpeg',
+        featured: true,
     },
     {
-        title: 'Mercedes Upholstery',
-        category: 'Automotive',
+        title: 'Sellerie Mercedes',
+        category: 'Automobile',
         firstImage: '/images/carros/mercedes-limpa.jpeg',
         secondImage: '/images/carros/mercedes-suja.jpeg',
     },
     {
-        title: 'Toyota Deep Clean',
-        category: 'Automotive',
+        title: 'Nettoyage Profond Toyota',
+        category: 'Automobile',
         firstImage: '/images/carros/toyota-limpo.jpeg',
         secondImage: '/images/carros/toyota-sujo.jpeg',
     },
     {
-        title: 'Service Car Restoration',
-        category: 'Automotive',
+        title: 'Restauration Voiture de Service',
+        category: 'Automobile',
         firstImage: '/images/carros/carro-serviço-limpo.jpeg',
         secondImage: '/images/carros/carro-serviço-sujo.jpeg',
     },
     {
-        title: 'Trunk Deep Clean',
-        category: 'Automotive',
+        title: 'Nettoyage Profond Coffre',
+        category: 'Automobile',
         firstImage: '/images/carros/mala-limpa.jpeg',
         secondImage: '/images/carros/mala-suja.jpeg',
+    },
+    {
+        title: 'Restauration Canapé',
+        category: 'Ameublement',
+        firstImage: '/images/estofados/sofa-limpo.jpeg',
+        secondImage: '/images/estofados/sofa-sujo.jpeg',
+        featured: true,
+    },
+    {
+        title: 'Nettoyage Chaise Salle à Manger',
+        category: 'Ameublement',
+        firstImage: '/images/estofados/cadeira-jantar-limpa.jpeg',
+        secondImage: '/images/estofados/cadeira-jantar-suja.jpeg',
+    },
+    {
+        title: 'Nettoyage Profond Matelas',
+        category: 'Ameublement',
+        firstImage: '/images/estofados/cama-limpa.jpeg',
+        secondImage: '/images/estofados/cama-suja.jpeg',
+        featured: true,
+    },
+    {
+        title: 'Rafraîchissement Tête de Lit',
+        category: 'Ameublement',
+        firstImage: '/images/estofados/cabeceira-limpa.jpeg',
+        secondImage: '/images/estofados/cabeceira-suja.jpeg',
+    },
+    {
+        title: 'Éclat Coussins',
+        category: 'Ameublement',
+        firstImage: '/images/estofados/almofadas-limpas.jpeg',
+        secondImage: '/images/estofados/almofadas-sujas.jpeg',
+    },
+    {
+        title: 'Soin Tissu Suédine',
+        category: 'Ameublement',
+        firstImage: '/images/estofados/suede-limpo.jpeg',
+        secondImage: '/images/estofados/suede-sujo.jpeg',
+    },
+    {
+        title: 'Restauration Moquette Bateau',
+        category: 'Tapis',
+        firstImage: '/images/carpete/barco-limpo.jpeg',
+        secondImage: '/images/carpete/barco-sujo.jpeg',
+        featured: true,
+    },
+    {
+        title: 'Nettoyage Profond Moquette Escalier',
+        category: 'Tapis',
+        firstImage: '/images/carpete/carpete-escada-limpo.jpeg',
+        secondImage: '/images/carpete/carpete-escada-sujo.jpeg',
+        featured: true,
+    },
+    {
+        title: 'Rafraîchissement Moquette Chambre',
+        category: 'Tapis',
+        firstImage: '/images/carpete/carpete-quarto-limpo.jpeg',
+        secondImage: '/images/carpete/carpete-quarto-sujo.jpeg',
+    },
+    {
+        title: 'Restauration Moquette Bureau',
+        category: 'Entreprise',
+        firstImage: '/images/corporate/carpete-bureau-limpo.jpeg',
+        secondImage: '/images/corporate/carpete-bureau-sujo.jpeg',
+        featured: true,
+    },
+    {
+        title: 'Nettoyage Cloison Bureau',
+        category: 'Entreprise',
+        firstImage: '/images/corporate/divisoria-limpa.jpeg',
+        secondImage: '/images/corporate/divisoria-suja.jpeg',
+    },
+    {
+        title: 'Nettoyage Profond Salle de Réunion',
+        category: 'Entreprise',
+        firstImage: '/images/corporate/reuniao-limpo.jpeg',
+        secondImage: '/images/corporate/reuniao-sujo.jpeg',
+        featured: true,
+    },
+    {
+        title: 'Soin Canapé Hall',
+        category: 'Entreprise',
+        firstImage: '/images/corporate/sofa-lobby-limpo.jpeg',
+        secondImage: '/images/corporate/sofa-lobby-sujo.jpeg',
     },
 ];
 
 export const Gallery = () => {
-    const [activeCategory, setActiveCategory] = React.useState('All');
+    const [activeCategory, setActiveCategory] = React.useState('Tout');
 
-    const filteredItems = items.filter(item => activeCategory === 'All' || item.category === activeCategory);
+    const filteredItems = items.filter(item => {
+        if (activeCategory === 'Tout') {
+            return item.featured;
+        }
+        return item.category === activeCategory;
+    });
 
     return (
         <Section id="gallery" background="secondary" className="border-t border-white/5">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
-                    <h2 className="text-secondary font-semibold tracking-wide uppercase text-sm">Visible Results</h2>
+                    <h2 className="text-secondary font-semibold tracking-wide uppercase text-sm">Résultats Visibles</h2>
                     <p className="mt-2 text-3xl font-bold tracking-tight text-heading sm:text-4xl">
-                        Restoration Gallery
+                        Galerie de Restauration
                     </p>
                 </div>
 
@@ -97,7 +188,7 @@ export const Gallery = () => {
                                     <h3 className="text-xl font-bold text-heading">{item.title}</h3>
                                 </div>
                                 <div className="text-right">
-                                    <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Slide to Compare</p>
+                                    <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Glisser pour Comparer</p>
                                 </div>
                             </div>
                         </div>

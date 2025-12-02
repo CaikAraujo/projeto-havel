@@ -9,6 +9,8 @@ const EcoCalculator: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState<EcoResult | null>(null);
 
+    const [selectedCard, setSelectedCard] = useState<'traditional' | 'molecular' | null>(null);
+
     const handleCalculate = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!input.trim()) return;
@@ -17,6 +19,7 @@ const EcoCalculator: React.FC = () => {
         const insight = await getEcoInsight(input);
         setResult(insight);
         setLoading(false);
+        setSelectedCard(null); // Reset selection on new calculation
     };
 
     return (
@@ -29,8 +32,8 @@ const EcoCalculator: React.FC = () => {
                         <Leaf size={24} />
                     </div>
                     <div>
-                        <h4 className="text-xl font-syne font-bold text-heading">Calculadora de Impacto Ecológico</h4>
-                        <p className="text-sm text-text-secondary">Descubra quanto você economiza com a tecnologia Suíça</p>
+                        <h4 className="text-xl font-syne font-bold text-heading">Calculateur d'Impact Écologique</h4>
+                        <p className="text-sm text-text-secondary">Découvrez combien vous économisez avec la technologie Suisse</p>
                     </div>
                 </div>
 
@@ -39,7 +42,7 @@ const EcoCalculator: React.FC = () => {
                         type="text"
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        placeholder="Ex: Sofá retrátil de 3 lugares, Poltrona de veludo..."
+                        placeholder="Ex : Canapé 3 places, Fauteuil en velours..."
                         className="w-full bg-[#1a1d24] text-white border border-white/10 rounded-lg py-4 px-6 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-space placeholder-gray-600 pr-16"
                     />
                     <button
@@ -60,17 +63,25 @@ const EcoCalculator: React.FC = () => {
                     <div className="animate-fade-in space-y-6">
                         {/* Comparison Cards */}
                         <div className="grid grid-cols-2 gap-4">
-                            <div className="p-4 rounded-xl bg-red-500/5 border border-red-500/20 flex flex-col items-center text-center">
-                                <div className="mb-2 p-2 bg-red-500/10 rounded-full text-red-500">
+                            <div
+                                onClick={() => setSelectedCard('traditional')}
+                                className={`p-4 rounded-xl flex flex-col items-center text-center cursor-pointer transition-all duration-300 border ${selectedCard === 'traditional'
+                                    ? 'bg-red-500/10 border-red-500'
+                                    : 'bg-red-500/5 border-red-500/20 hover:border-red-500/50'
+                                    }`}
+                            >
+                                <div className={`mb-2 p-2 rounded-full transition-colors ${selectedCard === 'traditional' ? 'bg-red-500/20 text-red-500' : 'bg-red-500/10 text-red-500'
+                                    }`}>
                                     <Droplets size={20} />
                                 </div>
-                                <div className="text-sm text-gray-400 uppercase tracking-wider mb-1">Tradicional</div>
+                                <div className="text-sm text-gray-400 uppercase tracking-wider mb-1">Traditionnel</div>
                                 <div className="text-2xl font-bold text-red-400 font-syne">{result.traditional}L</div>
-                                <div className="text-xs text-gray-500 mt-1">Água Desperdiçada</div>
+                                <div className="text-xs text-gray-500 mt-1">Eau Gaspillée</div>
                             </div>
 
                             <div
-                                className="p-4 rounded-xl flex flex-col items-center text-center relative overflow-hidden border"
+                                onClick={() => setSelectedCard('molecular')}
+                                className={`p-4 rounded-xl flex flex-col items-center text-center relative overflow-hidden border cursor-pointer transition-all duration-300`}
                                 style={{
                                     backgroundColor: 'rgba(0, 217, 184, 0.1)',
                                     borderColor: '#00D9B8'
@@ -78,12 +89,23 @@ const EcoCalculator: React.FC = () => {
                             >
                                 <div className="absolute inset-0 animate-pulse" style={{ backgroundColor: 'rgba(0, 217, 184, 0.05)' }}></div>
                                 <div className="relative z-10 flex flex-col items-center">
-                                    <div className="mb-2 p-2 bg-transparent rounded-full" style={{ color: '#00D9B8' }}>
+                                    <div
+                                        className="mb-2 p-2 rounded-full transition-all duration-300"
+                                        style={{
+                                            backgroundColor: 'rgba(0, 217, 184, 0.1)',
+                                            color: '#00D9B8'
+                                        }}
+                                    >
                                         <Sparkles size={20} />
                                     </div>
                                     <div className="text-sm text-gray-400 uppercase tracking-wider mb-1">Swiss Molecular</div>
-                                    <div className="text-2xl font-bold font-syne" style={{ color: '#00D9B8' }}>{result.molecular}L</div>
-                                    <div className="text-xs text-gray-500 mt-1">Consumo Mínimo</div>
+                                    <div
+                                        className="text-2xl font-bold font-syne transition-colors duration-300"
+                                        style={{ color: '#00D9B8' }}
+                                    >
+                                        {result.molecular}L
+                                    </div>
+                                    <div className="text-xs text-gray-500 mt-1">Consommation Minimale</div>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +114,7 @@ const EcoCalculator: React.FC = () => {
                         <div className="p-6 bg-gradient-to-br from-gray-800/50 to-gray-900/50 border-l-4 border-primary rounded-r-lg">
                             <div className="flex items-baseline gap-2 mb-2">
                                 <span className="text-4xl font-bold text-heading font-syne">{result.savings}L</span>
-                                <span className="text-lg text-text-secondary">de água poupados</span>
+                                <span className="text-lg text-text-secondary">d'eau économisée</span>
                             </div>
                             <p className="text-text-secondary leading-relaxed font-light">
                                 {result.message}

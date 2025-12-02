@@ -9,36 +9,36 @@ export const Contact = () => {
                 <div className="lg:grid lg:grid-cols-2 lg:gap-12">
                     {/* Left Column: Contact Form */}
                     <div className="bg-surface/30 backdrop-blur-sm rounded-2xl border border-white/5 p-8">
-                        <h2 className="text-2xl font-bold text-heading mb-6">Send a Message</h2>
+                        <h2 className="text-2xl font-bold text-heading mb-6">Envoyer un Message</h2>
                         <form className="space-y-6">
                             <div>
-                                <label htmlFor="name" className="block text-sm font-medium text-text-secondary mb-2">Name</label>
-                                <input type="text" id="name" placeholder="Your name" className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors" />
+                                <label htmlFor="name" className="block text-sm font-medium text-text-secondary mb-2">Nom</label>
+                                <input type="text" id="name" placeholder="Votre nom" className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors" />
                             </div>
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-text-secondary mb-2">Email</label>
                                 <input type="email" id="email" placeholder="your@email.com" className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors" />
                             </div>
                             <div>
-                                <label htmlFor="subject" className="block text-sm font-medium text-text-secondary mb-2">Subject</label>
-                                <input type="text" id="subject" placeholder="Question, Partnership, etc." className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors" />
+                                <label htmlFor="subject" className="block text-sm font-medium text-text-secondary mb-2">Sujet</label>
+                                <input type="text" id="subject" placeholder="Question, Partenariat, etc." className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors" />
                             </div>
                             <div>
-                                <label htmlFor="service" className="block text-sm font-medium text-text-secondary mb-2">Select a service</label>
+                                <label htmlFor="service" className="block text-sm font-medium text-text-secondary mb-2">Sélectionnez un service</label>
                                 <select id="service" className="w-full bg-background border border-white/10 rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors appearance-none">
-                                    <option value="">Choose an option</option>
-                                    <option value="upholstery">Upholstery Cleaning</option>
-                                    <option value="carpets">Carpet & Rugs</option>
-                                    <option value="automotive">Automotive Detailing</option>
-                                    <option value="corporate">Corporate Offices</option>
+                                    <option value="">Choisir une option</option>
+                                    <option value="upholstery">Nettoyage d'Ameublement</option>
+                                    <option value="carpets">Tapis & Moquettes</option>
+                                    <option value="automotive">Détailing Automobile</option>
+                                    <option value="corporate">Bureaux d'Entreprise</option>
                                 </select>
                             </div>
                             <div>
                                 <label htmlFor="message" className="block text-sm font-medium text-text-secondary mb-2">Message</label>
-                                <textarea id="message" rows={4} placeholder="How can we help you?" className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors"></textarea>
+                                <textarea id="message" rows={4} placeholder="Comment pouvons-nous vous aider ?" className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors"></textarea>
                             </div>
                             <Button type="submit" size="lg" className="w-full shadow-glow-blue">
-                                Send Message
+                                Envoyer le Message
                             </Button>
                         </form>
                     </div>
@@ -47,7 +47,7 @@ export const Contact = () => {
                     <div className="space-y-8 mt-12 lg:mt-0">
                         {/* Contact Info */}
                         <div className="bg-surface/30 backdrop-blur-sm rounded-2xl border border-white/5 p-8">
-                            <h2 className="text-2xl font-bold text-heading mb-6">Service Channels</h2>
+                            <h2 className="text-2xl font-bold text-heading mb-6">Canaux de Service</h2>
                             <div className="space-y-6">
                                 <div className="flex items-start space-x-4">
                                     <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10">
@@ -56,7 +56,7 @@ export const Contact = () => {
                                         </svg>
                                     </div>
                                     <div>
-                                        <p className="text-sm text-text-secondary">Phone / WhatsApp</p>
+                                        <p className="text-sm text-text-secondary">Téléphone / WhatsApp</p>
                                         <p className="text-lg font-bold text-text-primary">(11) 99999-9999</p>
                                     </div>
                                 </div>
@@ -80,14 +80,14 @@ export const Contact = () => {
                                         </svg>
                                     </div>
                                     <div>
-                                        <p className="text-sm text-text-secondary">Address</p>
+                                        <p className="text-sm text-text-secondary">Adresse</p>
                                         <p className="text-lg font-bold text-text-primary">Rte de Challex, La Plaine</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="mt-8 pt-8 border-t border-white/5">
-                                <p className="text-sm text-text-secondary mb-4">Follow us on social media</p>
+                                <p className="text-sm text-text-secondary mb-4">Suivez-nous sur les réseaux sociaux</p>
                                 <div className="flex space-x-4">
                                     <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-primary hover:bg-primary/10 hover:text-white transition-colors" aria-label="Instagram">
                                         <svg className="w-4 h-4 text-current" viewBox="0 0 24 24" fill="none" stroke="#00D9B8" strokeWidth="1.8">

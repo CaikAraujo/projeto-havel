@@ -10,14 +10,14 @@ export const Footer = () => {
                             SWISS<span className="text-primary">ECO</span>CLEAN
                         </span>
                         <p className="mt-4 text-text-secondary max-w-xs">
-                            Redefining cleanliness with Swiss precision and eco-friendly technology.
+                            Redéfinir la propreté avec la précision suisse et une technologie écologique.
                         </p>
                     </div>
 
                     <div>
                         <h3 className="text-sm font-semibold text-heading tracking-wider uppercase mb-4">Services</h3>
                         <ul className="space-y-3">
-                            {['Upholstery', 'Carpets', 'Automotive', 'Offices'].map((item) => (
+                            {['Ameublement', 'Tapis & Moquettes', 'Automobile', 'Bureaux'].map((item) => (
                                 <li key={item}>
                                     <a href="#" className="text-text-muted hover:text-electric transition-colors">
                                         {item}
@@ -28,9 +28,9 @@ export const Footer = () => {
                     </div>
 
                     <div>
-                        <h3 className="text-sm font-semibold text-heading tracking-wider uppercase mb-4">Company</h3>
+                        <h3 className="text-sm font-semibold text-heading tracking-wider uppercase mb-4">Entreprise</h3>
                         <ul className="space-y-3">
-                            {['About Us', 'Sustainability', 'Careers', 'Privacy Policy'].map((item) => (
+                            {['À Propos', 'Durabilité', 'Carrières', 'Politique de Confidentialité'].map((item) => (
                                 <li key={item}>
                                     <a href="#" className="text-text-muted hover:text-electric transition-colors">
                                         {item}
@@ -43,7 +43,7 @@ export const Footer = () => {
 
                 <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center">
                     <p className="text-text-muted text-sm">
-                        &copy; {new Date().getFullYear()} Swiss Eco Clean. All rights reserved.
+                        &copy; {new Date().getFullYear()} Swiss Eco Clean. Tous droits réservés.
                     </p>
                     <div className="flex space-x-6 mt-4 md:mt-0">
                         {/* Social icons would go here */}

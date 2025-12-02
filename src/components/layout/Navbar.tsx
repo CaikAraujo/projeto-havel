@@ -26,24 +26,24 @@ export const Navbar = () => {
                 </div>
                 <div className="hidden md:flex items-center space-x-8">
                     <Link href="/" className="text-sm font-medium text-text-secondary hover:text-electric transition-colors">
-                        Home
+                        Accueil
                     </Link>
                     <Link href="/technology" className="text-sm font-medium text-text-secondary hover:text-electric transition-colors">
-                        Technology
+                        Technologie
                     </Link>
                     <Link href="/contact" className="text-sm font-medium text-text-secondary hover:text-electric transition-colors">
                         Contact
                     </Link>
                     <Link href="/contact">
                         <Button variant="primary" size="sm" className="shadow-glow-blue">
-                            Get a Quote
+                            Demander un Devis
                         </Button>
                     </Link>
                 </div>
                 <button
                     className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 text-heading transition-colors hover:text-primary"
                     onClick={() => setMenuOpen((prev) => !prev)}
-                    aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+                    aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
                 >
                     {menuOpen ? (
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -60,17 +60,17 @@ export const Navbar = () => {
                 <div className="md:hidden px-4 sm:px-6 mt-4">
                     <div className="bg-background-secondary/95 backdrop-blur-md border border-white/10 rounded-2xl p-6 space-y-4 shadow-xl">
                         <Link href="/" className="block text-sm font-medium text-text-secondary hover:text-electric transition-colors" onClick={() => setMenuOpen(false)}>
-                            Home
+                            Accueil
                         </Link>
                         <Link href="/technology" className="block text-sm font-medium text-text-secondary hover:text-electric transition-colors" onClick={() => setMenuOpen(false)}>
-                            Technology
+                            Technologie
                         </Link>
                         <Link href="/contact" className="block text-sm font-medium text-text-secondary hover:text-electric transition-colors" onClick={() => setMenuOpen(false)}>
                             Contact
                         </Link>
                         <Link href="/contact" onClick={() => setMenuOpen(false)}>
                             <Button variant="primary" size="sm" className="w-full shadow-glow-blue">
-                                Get a Quote
+                                Demander un Devis
                             </Button>
                         </Link>
                     </div>

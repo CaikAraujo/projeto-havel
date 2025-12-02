@@ -16,23 +16,23 @@ export const Hero = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h1 className="text-5xl md:text-7xl font-extrabold text-heading tracking-tight mb-6 leading-tight drop-shadow-2xl">
-          The Future of <br />
+          L'Avenir des <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-silver via-white to-silver">
-            Pristine Spaces
+            Espaces Immaculés
           </span>
         </h1>
 
         <p className="mt-4 max-w-2xl mx-auto text-xl text-text-secondary mb-10 font-light leading-relaxed">
-          Experience the pinnacle of eco-friendly dry cleaning for your home, vehicle, and office.
-          Swiss technology meets sustainable luxury.
+          Découvrez l'apogée du nettoyage à sec écologique pour votre maison, votre véhicule et votre bureau.
+          La technologie suisse rencontre le luxe durable.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button variant="primary" size="lg" className="w-full sm:w-auto shadow-glow-blue">
-            Schedule Service
+            Réserver un Service
           </Button>
           <Button variant="secondary" size="lg" className="w-full sm:w-auto shadow-glow-blue">
-            Explore Technology
+            Explorer la Technologie
           </Button>
         </div>
       </div>
