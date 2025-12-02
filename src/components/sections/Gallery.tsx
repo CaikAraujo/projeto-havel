@@ -2,38 +2,46 @@
 import React from 'react';
 import { Section } from '@/components/ui/Section';
 
+import { Compare } from '@/components/ui/compare';
+
 const categories = ['All', 'Upholstery', 'Carpets', 'Automotive', 'Corporate'];
 
 const items = [
     {
-        title: 'Velvet Armchair',
-        category: 'Upholstery',
-        image: 'https://images.unsplash.com/photo-1567016432779-094069958ea5?q=80&w=1780&auto=format&fit=crop',
-    },
-    {
-        title: 'Luxury Vehicle Interior',
+        title: 'BMW Interior Detail',
         category: 'Automotive',
-        image: 'https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=1780&auto=format&fit=crop',
+        firstImage: '/images/carros/bmw-limpa.jpeg',
+        secondImage: '/images/carros/bmw-suja.jpeg',
     },
     {
-        title: 'Persian Rug',
-        category: 'Carpets',
-        image: 'https://images.unsplash.com/photo-1596230529625-7ee541364597?q=80&w=1974&auto=format&fit=crop',
-    },
-    {
-        title: 'Office Lounge',
-        category: 'Corporate',
-        image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop',
-    },
-    {
-        title: 'Leather Sofa',
-        category: 'Upholstery',
-        image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop',
-    },
-    {
-        title: 'Car Detailing',
+        title: 'Ferrari Leather Care',
         category: 'Automotive',
-        image: 'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?q=80&w=2070&auto=format&fit=crop',
+        firstImage: '/images/carros/ferrari-limpa.jpeg',
+        secondImage: '/images/carros/ferrari-suja.jpeg',
+    },
+    {
+        title: 'Mercedes Upholstery',
+        category: 'Automotive',
+        firstImage: '/images/carros/mercedes-limpa.jpeg',
+        secondImage: '/images/carros/mercedes-suja.jpeg',
+    },
+    {
+        title: 'Toyota Deep Clean',
+        category: 'Automotive',
+        firstImage: '/images/carros/toyota-limpo.jpeg',
+        secondImage: '/images/carros/toyota-sujo.jpeg',
+    },
+    {
+        title: 'Service Car Restoration',
+        category: 'Automotive',
+        firstImage: '/images/carros/carro-serviço-limpo.jpeg',
+        secondImage: '/images/carros/carro-serviço-sujo.jpeg',
+    },
+    {
+        title: 'Trunk Deep Clean',
+        category: 'Automotive',
+        firstImage: '/images/carros/mala-limpa.jpeg',
+        secondImage: '/images/carros/mala-suja.jpeg',
     },
 ];
 
@@ -58,7 +66,7 @@ export const Gallery = () => {
                             key={category}
                             onClick={() => setActiveCategory(category)}
                             className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeCategory === category
-                                ? 'bg-primary text-primary-foreground shadow-glow-blue'
+                                ? 'bg-primary/10 border border-[#00D9B8] text-[#00D9B8] shadow-[0_0_15px_rgba(0,217,184,0.3)]'
                                 : 'bg-surface/50 text-text-secondary hover:bg-surface hover:text-text-primary border border-white/5'
                                 }`}
                         >
@@ -67,24 +75,30 @@ export const Gallery = () => {
                     ))}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {filteredItems.map((item, index) => (
-                        <div key={index} className="group relative overflow-hidden rounded-2xl aspect-[4/5]">
-                            <img
-                                src={item.image}
-                                alt={item.title}
-                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80"></div>
+                        <div key={index} className="group relative overflow-hidden rounded-3xl bg-surface/50 border border-white/5 p-2">
+                            <div className="relative aspect-video rounded-2xl overflow-hidden">
+                                <Compare
+                                    firstImage={item.firstImage}
+                                    secondImage={item.secondImage}
+                                    firstImageClassName="object-cover object-center"
+                                    secondImageClassname="object-cover object-center"
+                                    className="w-full h-full"
+                                    slideMode="hover"
+                                />
+                            </div>
 
-                            <div className="absolute bottom-0 left-0 p-6 w-full">
-                                <span className="inline-block px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-medium text-text-primary mb-3">
-                                    {item.category}
-                                </span>
-                                <h3 className="text-xl font-bold text-heading mb-1">{item.title}</h3>
-                                <p className="text-sm text-text-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                                    Restored to original condition
-                                </p>
+                            <div className="p-4 flex justify-between items-end">
+                                <div>
+                                    <span className="inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-primary mb-2">
+                                        {item.category}
+                                    </span>
+                                    <h3 className="text-xl font-bold text-heading">{item.title}</h3>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Slide to Compare</p>
+                                </div>
                             </div>
                         </div>
                     ))}
