@@ -90,9 +90,7 @@ const SwissEcoCleanApp: React.FC = () => {
                         <span className="mr-2">Demander un Devis</span>
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </Button>
-                    <p className="mt-6 text-sm text-text-muted">
-                        Service dans tout le Grand São Paulo et Région.
-                    </p>
+
                 </div>
 
             </section>

@@ -1,8 +1,52 @@
+"use client";
+
 import React from 'react';
 import { Section } from '@/components/ui/Section';
 import { Button } from '@/components/ui/Button';
 
 export const Contact = () => {
+    const [formData, setFormData] = React.useState({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        service: '',
+        message: ''
+    });
+    const [status, setStatus] = React.useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        setFormData(prev => ({
+            ...prev,
+            [e.target.id]: e.target.value
+        }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setStatus('loading');
+
+        try {
+            const response = await fetch('/api/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                setStatus('success');
+                setFormData({ name: '', email: '', phone: '', subject: '', service: '', message: '' });
+                setTimeout(() => setStatus('idle'), 5000);
+            } else {
+                setStatus('error');
+            }
+        } catch (error) {
+            setStatus('error');
+        }
+    };
+
     return (
         <Section id="contact" background="default" className="border-t border-white/5">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -10,35 +54,102 @@ export const Contact = () => {
                     {/* Left Column: Contact Form */}
                     <div className="bg-surface/30 backdrop-blur-sm rounded-2xl border border-white/5 p-8">
                         <h2 className="text-2xl font-bold text-heading mb-6">Envoyer un Message</h2>
-                        <form className="space-y-6">
+                        <form className="space-y-6" onSubmit={handleSubmit}>
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium text-text-secondary mb-2">Nom</label>
-                                <input type="text" id="name" placeholder="Votre nom" className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors" />
+                                <input
+                                    type="text"
+                                    id="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    placeholder="Votre nom"
+                                    required
+                                    className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors"
+                                />
                             </div>
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-text-secondary mb-2">Email</label>
-                                <input type="email" id="email" placeholder="your@email.com" className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors" />
+                                <input
+                                    type="email"
+                                    id="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    placeholder="your@email.com"
+                                    required
+                                    className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="phone" className="block text-sm font-medium text-text-secondary mb-2">Téléphone</label>
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    value={formData.phone}
+                                    onChange={handleChange}
+                                    placeholder="+41 79 123 45 67"
+                                    className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors"
+                                />
                             </div>
                             <div>
                                 <label htmlFor="subject" className="block text-sm font-medium text-text-secondary mb-2">Sujet</label>
-                                <input type="text" id="subject" placeholder="Question, Partenariat, etc." className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors" />
+                                <input
+                                    type="text"
+                                    id="subject"
+                                    value={formData.subject}
+                                    onChange={handleChange}
+                                    placeholder="Question, Partenariat, etc."
+                                    required
+                                    className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors"
+                                />
                             </div>
                             <div>
                                 <label htmlFor="service" className="block text-sm font-medium text-text-secondary mb-2">Sélectionnez un service</label>
-                                <select id="service" className="w-full bg-background border border-white/10 rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors appearance-none">
+                                <select
+                                    id="service"
+                                    value={formData.service}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors appearance-none"
+                                >
                                     <option value="">Choisir une option</option>
-                                    <option value="upholstery">Nettoyage d'Ameublement</option>
-                                    <option value="carpets">Tapis & Moquettes</option>
-                                    <option value="automotive">Détailing Automobile</option>
-                                    <option value="corporate">Bureaux d'Entreprise</option>
+                                    <option value="Nettoyage d'Ameublement">Nettoyage d'Ameublement</option>
+                                    <option value="Tapis & Moquettes">Tapis & Moquettes</option>
+                                    <option value="Détailing Automobile">Détailing Automobile</option>
+                                    <option value="Bureaux d'Entreprise">Bureaux d'Entreprise</option>
                                 </select>
                             </div>
                             <div>
                                 <label htmlFor="message" className="block text-sm font-medium text-text-secondary mb-2">Message</label>
-                                <textarea id="message" rows={4} placeholder="Comment pouvons-nous vous aider ?" className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors"></textarea>
+                                <textarea
+                                    id="message"
+                                    rows={4}
+                                    value={formData.message}
+                                    onChange={handleChange}
+                                    placeholder="Comment pouvons-nous vous aider ?"
+                                    required
+                                    className="w-full bg-background-secondary border border-white/10 rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-primary transition-colors"
+                                ></textarea>
                             </div>
-                            <Button type="submit" size="lg" className="w-full shadow-glow-blue">
-                                Envoyer le Message
+
+                            {status === 'success' && (
+                                <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-sm">
+                                    Message envoyé avec succès ! Nous vous répondrons bientôt.
+                                </div>
+                            )}
+
+                            {status === 'error' && (
+                                <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                                    Une erreur s'est produite. Veuillez réessayer plus tard.
+                                </div>
+                            )}
+
+                            <Button
+                                type="submit"
+                                size="lg"
+                                className="w-full shadow-glow-blue disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled={status === 'loading'}
+                            >
+                                {status === 'loading' ? 'Envoi en cours...' : 'Envoyer le Message'}
                             </Button>
                         </form>
                     </div>
