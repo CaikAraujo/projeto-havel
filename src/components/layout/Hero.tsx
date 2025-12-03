@@ -1,4 +1,4 @@
-import React from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 
 export const Hero = () => {
@@ -6,8 +6,15 @@ export const Hero = () => {
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
       {/* Background Elements */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-dark opacity-90"></div>
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2700&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay opacity-10"></div>
+        <div className="absolute inset-0 bg-gradient-dark opacity-90 z-10"></div>
+        <Image
+          src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2700&auto=format&fit=crop"
+          alt="Intérieur luxueux et propre"
+          fill
+          priority
+          className="object-cover object-center mix-blend-overlay opacity-10"
+          sizes="100vw"
+        />
 
         {/* Futuristic Glows */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px] animate-pulse"></div>

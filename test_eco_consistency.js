@@ -1,32 +1,24 @@
-"use server";
+const { GoogleGenAI } = require("@google/genai");
+const fs = require('fs');
+const path = require('path');
 
-import { GoogleGenAI } from "@google/genai";
-
-export interface EcoResult {
-    valid?: boolean;
-    traditional: number;
-    molecular: number;
-    savings: number;
-    message: string;
+// Load env vars manually
+const envPath = path.resolve(process.cwd(), '.env.local');
+if (fs.existsSync(envPath)) {
+    const envConfig = fs.readFileSync(envPath, 'utf8');
+    envConfig.split('\n').forEach(line => {
+        const [key, value] = line.split('=');
+        if (key && value) {
+            process.env[key.trim()] = value.trim();
+        }
+    });
 }
 
-const mockResponse = (item: string): EcoResult => {
-    return {
-        valid: true,
-        traditional: 180,
-        molecular: 5,
-        savings: 175,
-        message: `En optant pour la technologie moléculaire pour votre ${item}, vous préservez des ressources vitales.`
-    };
-}
-
-export const calculateEcoInsight = async (itemDescription: string): Promise<EcoResult> => {
-    // Use the secure server-side environment variable
+const calculateEcoInsight = async (itemDescription) => {
     const apiKey = process.env.GEMINI_API_KEY;
-
     if (!apiKey) {
-        console.warn("GEMINI_API_KEY not found. Returning mock data.");
-        return mockResponse(itemDescription);
+        console.error("API Key not found");
+        return null;
     }
 
     // Code-based safety filter for specific terms
@@ -55,29 +47,11 @@ export const calculateEcoInsight = async (itemDescription: string): Promise<EcoR
                 Agissez comme un expert en durabilité de SwissEcoClean.
                 L'utilisateur a saisi : "${itemDescription}".
                 
-                PRIORITÉ ABSOLUE : VALIDATION ET SÉCURITÉ
-                Avant tout calcul, analysez l'entrée pour détecter du contenu inapproprié.
-                
-                RÈGLES DE REJET (STRICTES) :
-                1. Si l'entrée contient des noms de politiciens, de célébrités controversées, ou des termes offensants (ex: "Bolsonaro", "Trump", "Hitler", "Sexe", "Drogue"), REJETEZ TOUT, même si un objet valide est présent (ex: "Bolsonaro sofa" = REJET).
-                2. Si l'entrée est absurde ou non nettoyable (ex: "Banane", "Nuage", "Amour"), REJETEZ.
-                
-                SI REJETÉ, RETOURNEZ :
-                {
-                  "valid": false,
-                  "traditional": 0,
-                  "molecular": 0,
-                  "message": "Veuillez saisir uniquement un article à nettoyer (ex : Canapé, Tapis, Matelas)."
-                }
-
-                SI VALIDÉ (Article nettoyable ou Voiture) :
-                Continuez avec le calcul ci-dessous.
-                
-                OBJECTIF : Fournir une estimation cohérente et réaliste de la consommation d'eau.
+                OBJECTIF : Fournir une estimation cohérente et réaliste de la consommation d'eau pour le nettoyage de cet article.
                 
                 RÈGLES DE CONSISTANCE :
                 1. Si la taille n'est pas précisée, supposez TOUJOURS une taille standard moyenne.
-                2. RETOURNEZ UNIQUEMENT DES ENTIERS SIMPLES. PAS DE FOURCHETTES.
+                2. RETOURNEZ UNIQUEMENT DES ENTIERS SIMPLES. PAS DE FOURCHETTES (ex: PAS "80-100", MAIS "90").
                 3. Ancrage des valeurs (Lavage Traditionnel) :
                    - Canapé 2-3 places : ~180 Litres
                    - Grand Canapé / Angle : ~280 Litres
@@ -89,14 +63,30 @@ export const calculateEcoInsight = async (itemDescription: string): Promise<EcoR
                    - Voiture Berline (ex: Tesla Model 3, Golf) : ~150 Litres (Intérieur complet)
                    - Voiture SUV/4x4 (ex: Range Rover) : ~200 Litres (Intérieur complet)
                 
+                ÉTAPE 1 : VALIDATION
+                Vérifiez si l'entrée fait référence à un article pouvant être nettoyé professionnellement.
+                ACCEPTEZ LES MARQUES ET MODÈLES DE VOITURES (ex: "Tesla", "Golf", "BMW X5"). Dans ce cas, considérez qu'on parle du NETTOYAGE INTÉRIEUR COMPLET des sièges et moquettes.
+                
+                ÉTAPE 2 : GÉNÉRATION (Seulement si valide)
+                Calculez des estimations de consommation d'eau.
+                La méthode moléculaire consomme environ 5% à 10% de la méthode traditionnelle.
+
                 SORTIE ATTENDUE (JSON pur) :
                 
                 CAS VALIDE :
                 {
                   "valid": true,
-                  "traditional": [nombre entier],
-                  "molecular": [nombre entier],
+                  "traditional": [nombre entier, ex: 180],
+                  "molecular": [nombre entier, ex: 10],
                   "message": "[Phrase courte et percutante sur l'économie en français]"
+                }
+
+                CAS INVALIDE :
+                {
+                  "valid": false,
+                  "traditional": 0,
+                  "molecular": 0,
+                  "message": "Veuillez saisir un article valide pour le nettoyage (ex : Canapé, Tapis, Matelas)."
                 }
               `
                         }
@@ -113,40 +103,40 @@ export const calculateEcoInsight = async (itemDescription: string): Promise<EcoR
         const data = JSON.parse(jsonString);
 
         if (data.valid) {
-            // Runtime validation and correction
             let traditional = typeof data.traditional === 'number' ? data.traditional : parseInt(data.traditional) || 0;
             let molecular = typeof data.molecular === 'number' ? data.molecular : parseInt(data.molecular) || 0;
 
-            // Sanity check: if traditional is huge (e.g. > 5000 for a household item), it's likely an error or a concatenation (80-100 -> 80100)
             if (traditional > 2000) {
-                traditional = Math.round(traditional / 100); // Try to fix scaling error
-                if (traditional > 2000) traditional = 200; // Fallback to safe default
+                traditional = Math.round(traditional / 100);
+                if (traditional > 2000) traditional = 200;
             }
 
-            // Ensure molecular is smaller
             if (molecular >= traditional) {
                 molecular = Math.round(traditional * 0.05);
             }
 
             return {
-                valid: true,
                 traditional,
                 molecular,
-                savings: traditional - molecular, // Calculate savings in code to be safe
-                message: data.message
+                savings: traditional - molecular
             };
         }
-
-        return {
-            valid: false,
-            traditional: 0,
-            molecular: 0,
-            savings: 0,
-            message: data.message || "Article non reconnu."
-        };
+        return data;
 
     } catch (error) {
-        console.error("Gemini API Error:", error);
-        return mockResponse(itemDescription);
+        console.error("Error:", error);
+        return null;
     }
 };
+
+async function runTest() {
+    console.log("Testing consistency for 'bolsonaro sofa'...");
+    const res1 = await calculateEcoInsight("bolsonaro sofa");
+    console.log("Result:", res1);
+
+    console.log("\nTesting consistency for 'banane'...");
+    const res2 = await calculateEcoInsight("banane");
+    console.log("Result:", res2);
+}
+
+runTest();

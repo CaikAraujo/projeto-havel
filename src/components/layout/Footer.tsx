@@ -30,10 +30,14 @@ export const Footer = () => {
                     <div>
                         <h3 className="text-sm font-semibold text-heading tracking-wider uppercase mb-4">Entreprise</h3>
                         <ul className="space-y-3">
-                            {['À Propos', 'Durabilité', 'Carrières', 'Politique de Confidentialité'].map((item) => (
-                                <li key={item}>
-                                    <a href="#" className="text-text-muted hover:text-electric transition-colors">
-                                        {item}
+                            {[
+                                { name: 'À Propos', href: '/about' },
+                                { name: 'Durabilité', href: '/sustainability' },
+                                { name: 'Politique de Confidentialité', href: '/privacy' }
+                            ].map((item) => (
+                                <li key={item.name}>
+                                    <a href={item.href} className="text-text-muted hover:text-electric transition-colors">
+                                        {item.name}
                                     </a>
                                 </li>
                             ))}
