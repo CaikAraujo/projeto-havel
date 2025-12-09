@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import MolecularSimulation from './MolecularSimulation';
 import EcoCalculator from './EcoCalculator';
 import { Button } from '../ui/Button';
@@ -86,10 +87,12 @@ const SwissEcoCleanApp: React.FC = () => {
                     <h2 className="text-4xl md:text-5xl font-syne font-bold text-heading mb-8">
                         Prêt pour le futur ?
                     </h2>
-                    <Button variant="primary" size="lg" className="group shadow-glow-blue rounded-full">
-                        <span className="mr-2">Demander un Devis</span>
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </Button>
+                    <Link href="/contact">
+                        <Button variant="primary" size="lg" className="group shadow-glow-blue rounded-full">
+                            <span className="mr-2">Demander un Devis</span>
+                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </Button>
+                    </Link>
 
                 </div>
 
