@@ -5,78 +5,78 @@ import { LRUCache } from 'lru-cache';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Rate Limiter: 3 requests per hour per IP
+// Rate Limiter: 5 requests per hour per IP (Strict for production)
 const rateLimit = new LRUCache<string, number>({
-    max: 500,
-    ttl: 1000 * 60 * 60, // 1 hour
+  max: 500,
+  ttl: 1000 * 60 * 60, // 1 hour
 });
 
 // Validation Schema
 const contactSchema = z.object({
-    name: z.string().min(2, "Name is too short").max(50, "Name is too long"),
-    email: z.string().email("Invalid email address"),
-    phone: z.string().optional(),
-    subject: z.string().min(3, "Subject is too short").max(100, "Subject is too long"),
-    service: z.string().min(1, "Please select a service"),
-    message: z.string().min(10, "Message is too short").max(1000, "Message is too long"),
+  name: z.string().min(2, "Name is too short").max(50, "Name is too long"),
+  email: z.string().email("Invalid email address"),
+  phone: z.string().optional(),
+  subject: z.string().min(3, "Subject is too short").max(100, "Subject is too long"),
+  service: z.string().min(1, "Please select a service"),
+  message: z.string().min(10, "Message is too short").max(1000, "Message is too long"),
 });
 
 export async function POST(request: Request) {
-    try {
-        // 1. Rate Limiting
-        const ip = request.headers.get('x-forwarded-for') || 'unknown';
-        const currentUsage = rateLimit.get(ip) || 0;
+  try {
+    // 1. Rate Limiting
+    const ip = request.headers.get('x-forwarded-for') || 'unknown';
+    const currentUsage = rateLimit.get(ip) || 0;
 
-        if (currentUsage >= 3) {
-            return NextResponse.json(
-                { error: "Too many requests. Please try again later." },
-                { status: 429 }
-            );
-        }
-        rateLimit.set(ip, currentUsage + 1);
+    if (currentUsage >= 5) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429 }
+      );
+    }
+    rateLimit.set(ip, currentUsage + 1);
 
-        // 2. Input Validation
-        const body = await request.json();
-        const result = contactSchema.safeParse(body);
+    // 2. Input Validation
+    const body = await request.json();
+    const result = contactSchema.safeParse(body);
 
-        if (!result.success) {
-            return NextResponse.json(
-                { error: "Invalid input", details: result.error.flatten() },
-                { status: 400 }
-            );
-        }
+    if (!result.success) {
+      return NextResponse.json(
+        { error: "Invalid input", details: result.error.flatten() },
+        { status: 400 }
+      );
+    }
 
-        const { name, email, phone, subject, service, message } = result.data;
+    const { name, email, phone, subject, service, message } = result.data;
 
-        // Logic from user's snippet
-        const primaryColor = '#00D9B8'; // Site's primary color
-        const telefoneClean = phone ? phone.replace(/\D/g, '') : '';
-        const whatsappLink = telefoneClean ? `https://wa.me/${telefoneClean}` : '#';
+    // Logic from user's snippet
+    const primaryColor = '#00D9B8'; // Site's primary color
+    const telefoneClean = phone ? phone.replace(/\D/g, '') : '';
+    const whatsappLink = telefoneClean ? `https://wa.me/${telefoneClean}` : '#';
 
-        // Helper to escape HTML characters
-        const escapeHtml = (unsafe: string) => {
-            return unsafe
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
+    // Helper to escape HTML characters
+    const escapeHtml = (unsafe: string) => {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
 
-        const safeName = escapeHtml(name);
-        const safeEmail = escapeHtml(email);
-        const safeSubject = escapeHtml(subject);
-        const safeService = escapeHtml(service);
-        const safeMessage = escapeHtml(message);
-        const safePhone = phone ? escapeHtml(phone) : 'Non renseigné';
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeSubject = escapeHtml(subject);
+    const safeService = escapeHtml(service);
+    const safeMessage = escapeHtml(message);
+    const safePhone = phone ? escapeHtml(phone) : 'Non renseigné';
 
-        // 3. Send Email
-        const data = await resend.emails.send({
-            from: 'Swiss Eco Clean <onboarding@resend.dev>', // Use onboarding domain for testing if custom domain not verified
-            to: ['havelprojeto@gmail.com'], // Send to the user's email
-            replyTo: email,
-            subject: `Nouveau Lead : ${safeSubject}`,
-            html: `
+    // 3. Send Email
+    const data = await resend.emails.send({
+      from: 'onboarding@resend.dev', // Changed to simple sender for better deliverability
+      to: ['havelprojeto@gmail.com'], // Send to the user's email
+      replyTo: email,
+      subject: `Nouveau Lead : ${safeSubject}`,
+      html: `
 <!DOCTYPE html>
 <html lang="fr-CH">
 <head>
@@ -184,10 +184,10 @@ export async function POST(request: Request) {
 </body>
 </html>
       `,
-        });
+    });
 
-        return NextResponse.json(data);
-    } catch (error) {
-        return NextResponse.json({ error }, { status: 500 });
-    }
+    return NextResponse.json(data);
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
 }
