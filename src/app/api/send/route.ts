@@ -47,6 +47,7 @@ export async function POST(request: Request) {
     }
 
     const { name, email, phone, subject, service, message } = result.data;
+    const submissionId = Date.now().toString().slice(-5);
 
     // Logic from user's snippet
     const primaryColor = '#00D9B8'; // Site's primary color
@@ -75,7 +76,7 @@ export async function POST(request: Request) {
       from: 'onboarding@resend.dev', // Changed to simple sender for better deliverability
       to: ['havelprojeto@gmail.com'], // Send to the user's email
       replyTo: email,
-      subject: `Nouveau Lead : ${safeSubject}`,
+      subject: `Nouveau Lead : ${safeSubject} (Ref: ${submissionId})`,
       html: `
 <!DOCTYPE html>
 <html lang="fr-CH">
@@ -167,7 +168,7 @@ export async function POST(request: Request) {
       <!-- Footer System Info -->
       <div style="background-color: #f1f5f9; padding: 16px 40px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #94a3b8; display: flex; justify-content: space-between; align-items: center;">
          <div>
-           <strong>Système Havel</strong> • ID de Soumission : #${Date.now().toString().slice(-5)}
+           <strong>Système Havel</strong> • ID de Soumission : #${submissionId}
          </div>
          <div>
            ${new Date().getFullYear()}
